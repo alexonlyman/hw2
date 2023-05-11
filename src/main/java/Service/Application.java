@@ -1,33 +1,52 @@
 package Service;
 
+import Model.City;
 import Model.Employee;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 public class Application {
-    public static void main(String[] args) throws SQLException {
+    private static final EmployeeDAO employeeDAO = new EmployeeDAPImpl();
+    private static final CityDAO cityDAO = new CityDAOimpl();
 
-        EmployeeDAO employeeDAO = new EmployeeDAPImpl();
+    public static void main(String[] args) {
 
-        Employee employee1 = new Employee ("Иван","Кузнецов","male", 44, 1);
-        employeeDAO.add(employee1);
 
-        // Получаем объект по id
-        System.out.println(employeeDAO.getById(4));
+        Employee employee = new Employee(3, "Mikhail", "Verbn", "male", 55, null);
+        employeeDAO.add(employee);
+        System.out.println(employeeDAO.getById(1));
 
         List<Employee> list = employeeDAO.getAll();
+        for (Employee employee1 : list) {
+            System.out.println(employee1);
 
-        for (Employee employee : list) {
-            System.out.println(employee);
         }
+        Employee employee2 = new Employee(1, "Mikhaili", "Verbna", "male", 45, null);
+        employeeDAO.updateEmployee(3, employee2);
 
-        Employee employee3 = new Employee("Коля", "Никифоров", "male", 55, 1);
+        employeeDAO.deleteEmployee(employee);
+
+        City city = new City(1, "Minsk", Collections.singletonList(employee));
+        cityDAO.add(city);
+        System.out.println(cityDAO.getById(1));
 
 
-        employeeDAO.updateEmployee(1, employee3);
+        List<City> list1 = cityDAO.getAll();
+        for (City city1 : list1) {
+            System.out.println(city1);
 
-        employeeDAO.deleteEmployee(employee3);
+        }
+        City city2 = new City(3, "Minskr", Collections.singletonList(employee));
+        cityDAO.updateCity(3, city2);
+
+        cityDAO.deleteCity(city);
+
+
+
 
     }
+
 }
+
